@@ -1,12 +1,23 @@
 {
   "name": "react-scroll-transitions",
-  "version": "0.10.0",
+  "version": "1.0.0",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
   "repository": {
     "url": "https://github.com/MrVann/react-scroll-transitions",
     "type": "git"
   },
+  "keywords": [
+    "scroll",
+    "parallax",
+    "animation",
+    "animate",
+    "react",
+    "transitions",
+    "transition",
+    "percent",
+    "ease"
+  ],
   "license": "MIT",
   "types": "dist/index.d.ts",
   "devDependencies": {

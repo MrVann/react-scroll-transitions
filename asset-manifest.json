@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/example-react-scroll-transitions/static/css/main.795991f2.chunk.css",
-    "main.js": "/example-react-scroll-transitions/static/js/main.dc63830e.chunk.js",
-    "main.js.map": "/example-react-scroll-transitions/static/js/main.dc63830e.chunk.js.map",
-    "runtime~main.js": "/example-react-scroll-transitions/static/js/runtime~main.ca58b1de.js",
-    "runtime~main.js.map": "/example-react-scroll-transitions/static/js/runtime~main.ca58b1de.js.map",
-    "static/js/2.f885ce20.chunk.js": "/example-react-scroll-transitions/static/js/2.f885ce20.chunk.js",
-    "static/js/2.f885ce20.chunk.js.map": "/example-react-scroll-transitions/static/js/2.f885ce20.chunk.js.map",
-    "index.html": "/example-react-scroll-transitions/index.html",
-    "precache-manifest.02594d52c9212a021ec42c4040abcb6a.js": "/example-react-scroll-transitions/precache-manifest.02594d52c9212a021ec42c4040abcb6a.js",
-    "service-worker.js": "/example-react-scroll-transitions/service-worker.js",
-    "static/css/main.795991f2.chunk.css.map": "/example-react-scroll-transitions/static/css/main.795991f2.chunk.css.map"
+    "main.css": "/react-scroll-transitions/static/css/main.795991f2.chunk.css",
+    "main.js": "/react-scroll-transitions/static/js/main.b5947fea.chunk.js",
+    "main.js.map": "/react-scroll-transitions/static/js/main.b5947fea.chunk.js.map",
+    "runtime~main.js": "/react-scroll-transitions/static/js/runtime~main.7fde51c9.js",
+    "runtime~main.js.map": "/react-scroll-transitions/static/js/runtime~main.7fde51c9.js.map",
+    "static/js/2.f885ce20.chunk.js": "/react-scroll-transitions/static/js/2.f885ce20.chunk.js",
+    "static/js/2.f885ce20.chunk.js.map": "/react-scroll-transitions/static/js/2.f885ce20.chunk.js.map",
+    "index.html": "/react-scroll-transitions/index.html",
+    "precache-manifest.c5ae365feec2209f6bf9baff2e4aeb53.js": "/react-scroll-transitions/precache-manifest.c5ae365feec2209f6bf9baff2e4aeb53.js",
+    "service-worker.js": "/react-scroll-transitions/service-worker.js",
+    "static/css/main.795991f2.chunk.css.map": "/react-scroll-transitions/static/css/main.795991f2.chunk.css.map"
   }
 }

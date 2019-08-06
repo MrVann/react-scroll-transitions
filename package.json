@@ -1,10 +1,10 @@
 {
-  "name": "react-component-lib",
-  "version": "1.0.0",
+  "name": "react-scroll-transitions",
+  "version": "0.9.0",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
   "repository": {
-    "url": "https://github.com/michal-wrzosek/react-component-lib",
+    "url": "https://github.com/MrVann/react-scroll-transitions",
     "type": "git"
   },
   "license": "MIT",

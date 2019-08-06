@@ -1,3 +1,3 @@
-import { TestComponent } from "./components/TestComponent/TestComponent";
+import { ParallaxScroll } from "./components/ParallaxScroll/ParallaxScroll";
 
-export { TestComponent };
+export default ParallaxScroll;

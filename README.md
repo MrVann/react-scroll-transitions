@@ -1,22 +1,108 @@
-# react-component-lib
+# react-scroll-transitions
 
-This is a boilerplate repository for creating npm packages with React components written in TypeScript and using styled-components.
+## Introduction
 
-Medium article explaining step by step how to use this repo to publish your own library to NPM:
-https://medium.com/@xfor/developing-publishing-react-component-library-to-npm-styled-components-typescript-cc8274305f5a
+A small but powerfull module for creating scoll animations. Simply add an array of sections to the component and the render function will parse all the information that you will need.
 
-## Installation:
+## Usage
 
-To install all dependencies run `npm run install-all`.
+```jsx
+import React from "react";
+import { render } from "react-dom";
+import ScrollTransitions from "react-scroll-transitions";
 
-## Developing your library:
+const Example = () => (
+  <ScrollTransitions
+    sections={[
+      { id: "title" },
+      { id: "chapter1" },
+      {
+        id: "chapter2"
+      },
+      { id: "end" }
+    ]}
+    render={(id, transitionData) => (
+      <div>
+        ID: {id}
+        <br />
+        Percent: {transitionData.percent.toFixed(2)}
+      </div>
+    )}
+  />
+);
 
-To start developing your library, run `npm run dev`. It will build your library and run example create-react-app where you can test your components. Each time you make changes to your library or example app, app will be reloaded to reflect your changes.
+render(<Example />, document.getElementById("root"));
+```
 
-## Styled-components:
+## Props
 
-Developing library with components built with styled-components is challenging because you have to keep only one instance of styled-components. If you would just symlink your library (`file:../` or `npm link`) to example app that is also using styled-components you'll get a console warning about multiple instances of styled-components (even though styled-components are peer dependency) and your styles will be possibly broken. To be able to conveniently develop styled components I am injecting bundled files directly into example app's /src folder and importing it in App.tsx along with type declaration.
+### sections
 
-## Typescript
+Array of _Objects_:
 
-This boilerplate lets you develop your libraries in Typescript and you can simultaneously test it in Typescript example create-react-app.
+- **id** (required): _(String)_ Unique id for section
+- **height**
+
+### test
+
+When set to `true` renders coloured divs for testing and over-rides the render function.
+
+### render
+
+A function that renders each section `onScroll`.
+
+#### properties
+
+**id:** _String_ (id of the section),
+
+**transitionData**: _Object_
+
+- **isVisible**: boolean - Is the section active
+- **isEntering**: boolean - Is the section on the entring transition
+- **isLeaving**: boolean - Is the section on the leaving transition
+- **percent**: number [0-1] - Percent of section
+- **enteringPercent**: number [0-1] - Percent of enter transition (with ease in/out values)
+- **leavingPercent**: number [0-1] - Percent of leaving transition (with ease in/out values)
+- **transitionPercent**: number [0-1] - Percent of both transitions (without ease in/out values)
+
+  }
+
+sections: {
+height?: number;
+id: string;
+inTransition?: EaseFunction;
+outTransition?: EaseFunction;
+}[];
+test?: boolean;
+defaultTransition?:
+| "linear"
+| "easeQuad"
+| "easeCubic"
+| "easeQuart"
+| "easeQuint";
+render?: (
+id: string,
+{
+isVisible,
+percent,
+isLeaving,
+isEntering,
+transitionPercent,
+enteringPercent,
+leavingPercent
+}: {
+isVisible: boolean;
+percent: number;
+isLeaving: boolean;
+isEntering: boolean;
+transitionPercent: number;
+enteringPercent: number;
+leavingPercent: number;
+}
+) => any;
+dynamicLoading?: boolean;
+fixedContainer?: boolean;
+transitionSize?: number;
+transitionOverlap?: boolean;
+padStart?: boolean;
+padEnd?: boolean;

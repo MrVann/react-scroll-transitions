@@ -4,6 +4,8 @@
 
 A small but powerfull module for creating scoll animations. Simply add an array of sections to the component and the render function will parse all the information that you will need.
 
+**Demo:** [https://mrvann.github.io/react-scroll-transitions](https://mrvann.github.io/react-scroll-transitions)
+
 ## Usage
 
 ```jsx

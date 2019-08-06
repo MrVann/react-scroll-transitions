@@ -81,8 +81,8 @@ export const ParallaxScroll: React.FC<ParallaxScrollComponentProps> = ({
   fixedContainer = true,
   transitionSize = 0.5,
   transitionOverlap = false,
-  padStart = false,
-  padEnd = false
+  padStart = true,
+  padEnd = true
 }) => {
   const [safeSections, setSections] = React.useState([] as SafeSection[]);
   const [scrollHeight, setScrollHeight] = React.useState(0);
@@ -187,8 +187,8 @@ export const ParallaxScroll: React.FC<ParallaxScrollComponentProps> = ({
       const windowHeight = window.innerHeight;
 
       const transitionRange = transitionOverlap
-        ? windowHeight * transitionSize
-        : (windowHeight * transitionSize) / 2;
+        ? windowHeight * (transitionSize * 2)
+        : (windowHeight * (transitionSize * 2)) / 2;
 
       const halfWindow = windowHeight / 2;
 
@@ -253,9 +253,11 @@ export const ParallaxScroll: React.FC<ParallaxScrollComponentProps> = ({
         const enteringPercent = easingFunctions[section.inTransition](
           (position && position.enteringPercent) || 0
         );
-        const leavingPercent = easingFunctions[section.outTransition](
-          (position && position.leavingPercent) || 0
-        );
+        const leavingPercent =
+          1 -
+          easingFunctions[section.outTransition](
+            1 - ((position && position.leavingPercent) || 0)
+          );
         const percent = (position && position.percent) || 0;
         const isEntering = (position && position.isEntering) || false;
         const isLeaving = (position && position.isLeaving) || false;

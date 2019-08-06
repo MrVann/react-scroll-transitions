@@ -15,18 +15,18 @@ class App extends Component {
       <div>
         <ParallaxScroll
           test={false}
-          padStart={false}
-          padEnd={false}
+          padStart={true}
+          padEnd={true}
           transitionOverlap={false}
-          transitionSize={2}
+          transitionSize={0.5}
           sections={[
-            { id: "title", height: 2, outTransition: "easeOutQuad" },
+            { id: "title", height: 2, outTransition: "easeInQuad" },
             { id: "chapter1", height: 2 },
             {
               id: "chapter2",
               height: 2,
               inTransition: "easeOutCubic",
-              outTransition: "easeOutCubic"
+              outTransition: "easeInCubic"
             },
             { id: "end", height: 2 }
           ]}
@@ -206,7 +206,13 @@ class App extends Component {
                     >
                       <b>Star</b>
                     </span>{" "}
-                    this Repo!!
+                    <a
+                      href={
+                        "https://github.com/MrVann/react-scroll-transitions"
+                      }
+                    >
+                      this Repo!!
+                    </a>
                   </div>
                 );
               }

@@ -40,12 +40,10 @@ render(<Example />, document.getElementById("root"));
 
 Array of _Objects_:
 
-- **id** (required): _(String)_ Unique id for section
-- **height**
-
-### test
-
-When set to `true` renders coloured divs for testing and over-rides the render function.
+- **id**: _(String)_ Unique id for section
+- **height** (optional): _(Number: default = 1)_ The scroll height of each section (1 means 100% of the window height)
+- **inTransition** (optional): _(String: default - "linear")_ Option for transition types (see 'transition types')
+- **outTransition** (optional): _(String: default - "linear")_ Option for transition types (see 'transition types')
 
 ### render
 
@@ -65,44 +63,64 @@ A function that renders each section `onScroll`.
 - **leavingPercent**: number [0-1] - Percent of leaving transition (with ease in/out values)
 - **transitionPercent**: number [0-1] - Percent of both transitions (without ease in/out values)
 
-  }
+### test (optional)
 
-sections: {
-height?: number;
-id: string;
-inTransition?: EaseFunction;
-outTransition?: EaseFunction;
-}[];
-test?: boolean;
-defaultTransition?:
-| "linear"
-| "easeQuad"
-| "easeCubic"
-| "easeQuart"
-| "easeQuint";
-render?: (
-id: string,
-{
-isVisible,
-percent,
-isLeaving,
-isEntering,
-transitionPercent,
-enteringPercent,
-leavingPercent
-}: {
-isVisible: boolean;
-percent: number;
-isLeaving: boolean;
-isEntering: boolean;
-transitionPercent: number;
-enteringPercent: number;
-leavingPercent: number;
-}
-) => any;
-dynamicLoading?: boolean;
-fixedContainer?: boolean;
-transitionSize?: number;
-transitionOverlap?: boolean;
-padStart?: boolean;
-padEnd?: boolean;
+_Default: false_
+
+When set to `true` renders coloured divs for testing and over-rides the render function.
+
+### dynamicLoading (optional)
+
+_Default: true_
+
+Removes each section from the DOM when it isn't visible.
+
+### fixedContainer (optional)
+
+_Default: true_
+
+Renders the `render()` content inside a fixed container for each section.
+
+### transitionSize (optional)
+
+_Default: 0.5_
+
+The size of transitions (0.5 = half of the screen height)
+
+### transitionOverlap (optional)
+
+_Default: false_
+
+Overlaps the transitions, rendering both sections at the same time during each transition.
+
+### padStart (option)
+
+_Default: true_
+
+Pads the start of the page to equal the same duration of scrolling as other sections (you might want to remove this if your animation doesn't begin by entering the frame).
+
+### padEnd (option)
+
+_Default: true_
+
+Pads the end of the page to equal the same duration of scrolling as other sections (you might want to remove this if your animation doesn't end by leaving the frame).
+
+## Transition types
+
+Thanks to [Gaëtan Renaudeau](https://gist.github.com/gre).
+
+Options:
+
+- **linear** : No easing, no acceleration
+- **easeInQuad** : Accelerating from zero velocity
+- **easeOutQuad** : Decelerating to zero velocity
+- **easeInOutQuad** : Acceleration until halfway, then deceleration
+- **easeInCubic** : Acceleration until halfway
+- **easeOutCubic** : Decelerating to zero velocity
+- **easeInOutCubic** : Acceleration until halfway, then deceleration
+- **easeInQuart** : Acceleration until halfway
+- **easeOutQuart** : Decelerating to zero velocity
+- **easeInOutQuart** : Acceleration until halfway, then deceleration
+- **easeInQuint** : Acceleration until halfway
+- **easeOutQuint** : Decelerating to zero velocity
+- **easeInOutQuint** : Acceleration until halfway, then deceleration

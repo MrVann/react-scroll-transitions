@@ -30,6 +30,24 @@ class App extends Component {
             },
             { id: "end", height: 2 }
           ]}
+          renderAll={transitionData => {
+            console.log(
+              "render all",
+              transitionData,
+              transitionData.visibility.includes("chapter1"),
+              transitionData.visibility.includes("chapter2")
+            );
+            if (
+              transitionData.visibility.includes("chapter1") ||
+              transitionData.visibility.includes("chapter2")
+            ) {
+              return (
+                <div style={{ position: "fixed", left: "0px", top: "0px" }}>
+                  Staying for two
+                </div>
+              );
+            }
+          }}
           render={(
             id,
             {
@@ -47,7 +65,7 @@ class App extends Component {
                 return (
                   <div
                     style={{
-                      position: "absolute",
+                      position: "fixed",
                       left: "50%",
                       opacity: isLeaving ? transitionPercent : 1,
                       color: `rgb(0, ${0 + (1 - percent) * 225},${225 -

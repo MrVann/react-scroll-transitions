@@ -15,11 +15,21 @@ type EaseFunction =
   | "easeOutQuint"
   | "easeInOutQuint";
 
-interface SafeSection {
+export interface SafeSection {
   height: number;
   id: string;
   inTransition: EaseFunction;
   outTransition: EaseFunction;
+}
+
+export interface SectionInformation {
+  isVisible: boolean;
+  percent: number;
+  isLeaving: boolean;
+  isEntering: boolean;
+  transitionPercent: number;
+  enteringPercent: number;
+  leavingPercent: number;
 }
 
 export interface ParallaxScrollComponentProps {
@@ -36,26 +46,11 @@ export interface ParallaxScrollComponentProps {
     | "easeCubic"
     | "easeQuart"
     | "easeQuint";
-  render?: (
-    id: string,
-    {
-      isVisible,
-      percent,
-      isLeaving,
-      isEntering,
-      transitionPercent,
-      enteringPercent,
-      leavingPercent
-    }: {
-      isVisible: boolean;
-      percent: number;
-      isLeaving: boolean;
-      isEntering: boolean;
-      transitionPercent: number;
-      enteringPercent: number;
-      leavingPercent: number;
-    }
-  ) => any;
+  render?: (id: string, transitionData: SectionInformation) => any;
+  renderAll?: (transitionData: {
+    visibility: string[];
+    positions: SectionInformation[];
+  }) => any;
   dynamicLoading?: boolean;
   fixedContainer?: boolean;
   transitionSize?: number;
@@ -64,7 +59,7 @@ export interface ParallaxScrollComponentProps {
   padEnd?: boolean;
 }
 
-interface IScrollMeta {
+export interface IScrollMeta {
   height: number;
   id: string;
   startPosition: number;
@@ -82,7 +77,8 @@ export const ParallaxScroll: React.FC<ParallaxScrollComponentProps> = ({
   transitionSize = 0.5,
   transitionOverlap = false,
   padStart = true,
-  padEnd = true
+  padEnd = true,
+  renderAll
 }) => {
   const [safeSections, setSections] = React.useState([] as SafeSection[]);
   const [scrollHeight, setScrollHeight] = React.useState(0);
@@ -243,8 +239,45 @@ export const ParallaxScroll: React.FC<ParallaxScrollComponentProps> = ({
     setSections(tempSafeSections);
     onScroll({ target: { scrollingElement: { scrollTop: 0 } } }, newScrollMeta);
   }, []);
+
   return (
     <>
+      {renderAll ? (
+        renderAll({
+          visibility: visibleList,
+          positions: safeSections.map(section => {
+            const position = positionList.find(
+              sectionx => section.id == sectionx.id
+            );
+
+            const enteringPercent = easingFunctions[section.inTransition](
+              (position && position.enteringPercent) || 0
+            );
+            const leavingPercent =
+              1 -
+              easingFunctions[section.outTransition](
+                1 - ((position && position.leavingPercent) || 0)
+              );
+            const percent = (position && position.percent) || 0;
+            const isEntering = (position && position.isEntering) || false;
+            const isLeaving = (position && position.isLeaving) || false;
+            const transitionPercent =
+              (position && position.transitionPercent) || 0;
+
+            return {
+              isVisible: visibleList.includes(section.id),
+              percent: percent,
+              isEntering: isEntering,
+              isLeaving: isLeaving,
+              transitionPercent: transitionPercent,
+              enteringPercent: enteringPercent,
+              leavingPercent: leavingPercent
+            } as SectionInformation;
+          })
+        })
+      ) : (
+        <> </>
+      )}
       {safeSections.map((section, index) => {
         const position = positionList.find(
           sectionx => section.id == sectionx.id

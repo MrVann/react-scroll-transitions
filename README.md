@@ -69,6 +69,26 @@ A function that renders each section `onScroll`.
 - **leavingPercent**: number [0-1] - Percent of leaving transition (with ease in/out values)
 - **transitionPercent**: number [0-1] - Percent of both transitions (without ease in/out values)
 
+### renderAll
+
+A function that renders a component and parses all transition data.
+
+#### allTransitionData (_Object_)
+
+**visibility**: _Array_
+
+Array of ids that are visible.
+
+**positions**: _ObjectArray_
+
+- **isVisible**: boolean - Is the section active
+- **isEntering**: boolean - Is the section on the entring transition
+- **isLeaving**: boolean - Is the section on the leaving transition
+- **percent**: number [0-1] - Percent of section
+- **enteringPercent**: number [0-1] - Percent of enter transition (with ease in/out values)
+- **leavingPercent**: number [0-1] - Percent of leaving transition (with ease in/out values)
+- **transitionPercent**: number [0-1] - Percent of both transitions (without ease in/out values)
+
 ### test (optional)
 
 _Default: false_

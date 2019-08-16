@@ -40,7 +40,7 @@ const Example = () => (
 render(<Example />, document.getElementById("root"));
 ```
 
-## Props
+## ScrollProsition (component): Props
 
 ### sections
 
@@ -131,6 +131,16 @@ _Default: true_
 
 Pads the end of the page to equal the same duration of scrolling as other sections (you might want to remove this if your animation doesn't end by leaving the frame).
 
+## getScrollTransition (Function): Parameters
+
+### _Object_
+
+- **percent** : (number: [0-1]) The value of the section percent.
+- **from** : (number: [0-1]) Start value of the section transition.
+- **to** : (number: [0-1]) End value of the section transition.
+- **transition** : (string: TransitionType) Transition type.
+- **reverse** : (boolean) Reverse the direction (0 to 1 becomes 1 to 0).
+
 ## Transition types
 
 Thanks to [Gaëtan Renaudeau](https://gist.github.com/gre).
@@ -138,15 +148,7 @@ Thanks to [Gaëtan Renaudeau](https://gist.github.com/gre).
 Options:
 
 - **linear** : No easing, no acceleration
-- **easeInQuad** : Accelerating from zero velocity
-- **easeOutQuad** : Decelerating to zero velocity
-- **easeInOutQuad** : Acceleration until halfway, then deceleration
-- **easeInCubic** : Acceleration until halfway
-- **easeOutCubic** : Decelerating to zero velocity
-- **easeInOutCubic** : Acceleration until halfway, then deceleration
-- **easeInQuart** : Acceleration until halfway
-- **easeOutQuart** : Decelerating to zero velocity
-- **easeInOutQuart** : Acceleration until halfway, then deceleration
-- **easeInQuint** : Acceleration until halfway
-- **easeOutQuint** : Decelerating to zero velocity
-- **easeInOutQuint** : Acceleration until halfway, then deceleration
+- **easeIn** : Accelerating from zero velocity
+- **easeOut** : Decelerating to zero velocity
+- **easeInOut** : Acceleration until halfway, then deceleration
+- **solid** : 1 when higher than 0.00

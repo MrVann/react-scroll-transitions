@@ -1,19 +1,6 @@
 import React from "react";
 
-type EaseFunction =
-  | "linear"
-  | "easeInQuad"
-  | "easeOutQuad"
-  | "easeInOutQuad"
-  | "easeInCubic"
-  | "easeOutCubic"
-  | "easeInOutCubic"
-  | "easeInQuart"
-  | "easeOutQuart"
-  | "easeInOutQuart"
-  | "easeInQuint"
-  | "easeOutQuint"
-  | "easeInOutQuint";
+type EaseFunction = "linear" | "easeIn" | "easeOut" | "easeInOut" | "solid";
 
 export interface SafeSection {
   height: number;
@@ -67,6 +54,37 @@ export interface IScrollMeta {
   transitionInEnd: number;
   transitionOutStart: number;
 }
+
+export const getScrollTransition = ({
+  percent: parentPercent,
+  from,
+  to,
+  transition,
+  reverse
+}: {
+  percent: number;
+  from: number;
+  to: number;
+  transition?: EaseFunction;
+  reverse?: boolean;
+}) => {
+  const range = to - from;
+  const progress = parentPercent - from;
+  const active = parentPercent >= from && parentPercent <= to;
+  const percent = active ? progress / range : 0;
+  const finalTransition =
+    reverse &&
+    transition &&
+    transition.startsWith("ease") &&
+    transition !== "easeInOut"
+      ? transition === "easeIn"
+        ? "easeOut"
+        : "easeIn"
+      : transition;
+  return finalTransition
+    ? transitionFunctions[finalTransition](percent)
+    : percent;
+};
 
 export const ParallaxScroll: React.FC<ParallaxScrollComponentProps> = ({
   sections,
@@ -161,12 +179,12 @@ export const ParallaxScroll: React.FC<ParallaxScrollComponentProps> = ({
       ...section,
       inTransition:
         section.inTransition &&
-        Object.keys(easingFunctions).includes(section.inTransition)
+        Object.keys(transitionFunctions).includes(section.inTransition)
           ? section.inTransition
           : "linear",
       outTransition:
         section.outTransition &&
-        Object.keys(easingFunctions).includes(section.outTransition)
+        Object.keys(transitionFunctions).includes(section.outTransition)
           ? section.outTransition
           : "linear",
       height:
@@ -250,12 +268,12 @@ export const ParallaxScroll: React.FC<ParallaxScrollComponentProps> = ({
               sectionx => section.id == sectionx.id
             );
 
-            const enteringPercent = easingFunctions[section.inTransition](
+            const enteringPercent = transitionFunctions[section.inTransition](
               (position && position.enteringPercent) || 0
             );
             const leavingPercent =
               1 -
-              easingFunctions[section.outTransition](
+              transitionFunctions[section.outTransition](
                 1 - ((position && position.leavingPercent) || 0)
               );
             const percent = (position && position.percent) || 0;
@@ -283,18 +301,22 @@ export const ParallaxScroll: React.FC<ParallaxScrollComponentProps> = ({
           sectionx => section.id == sectionx.id
         );
 
-        const enteringPercent = easingFunctions[section.inTransition](
+        const enteringPercent = transitionFunctions[section.inTransition](
           (position && position.enteringPercent) || 0
         );
         const leavingPercent =
           1 -
-          easingFunctions[section.outTransition](
+          transitionFunctions[section.outTransition](
             1 - ((position && position.leavingPercent) || 0)
           );
         const percent = (position && position.percent) || 0;
         const isEntering = (position && position.isEntering) || false;
         const isLeaving = (position && position.isLeaving) || false;
         const transitionPercent = (position && position.transitionPercent) || 0;
+        const isUnderscroll = index === 0 && scrollHeight < 0;
+        const isOverscroll =
+          index === safeSections.length - 1 &&
+          scrollHeight > scrollMeta[index].endPosition;
 
         return (
           <div
@@ -326,7 +348,8 @@ export const ParallaxScroll: React.FC<ParallaxScrollComponentProps> = ({
               </div>
             ) : !fixedContainer ? (
               render &&
-              (!dynamicLoading || visibleList.includes(section.id)) &&
+              (!dynamicLoading ||
+                (visibleList.includes(section.id) || isUnderscroll)) &&
               render(section.id, {
                 isVisible: visibleList.includes(section.id),
                 percent: percent,
@@ -337,7 +360,10 @@ export const ParallaxScroll: React.FC<ParallaxScrollComponentProps> = ({
                 leavingPercent: leavingPercent
               })
             ) : (
-              (!dynamicLoading || visibleList.includes(section.id)) && (
+              (!dynamicLoading ||
+                visibleList.includes(section.id) ||
+                isUnderscroll ||
+                isOverscroll) && (
                 <div
                   style={{
                     ...styles.fixedContainer,
@@ -346,7 +372,10 @@ export const ParallaxScroll: React.FC<ParallaxScrollComponentProps> = ({
                 >
                   {render &&
                     render(section.id, {
-                      isVisible: visibleList.includes(section.id),
+                      isVisible:
+                        visibleList.includes(section.id) ||
+                        isUnderscroll ||
+                        isOverscroll,
                       percent: percent,
                       isEntering: isEntering,
                       isLeaving: isLeaving,
@@ -377,57 +406,27 @@ const styles = {
  * Easing Functions - inspired from http://gizma.com/easing/
  * only considering the t value for the range [0, 1] => [0, 1]
  */
-const easingFunctions = {
+const transitionFunctions = {
   // no easing, no acceleration
-  linear: function(t: number) {
+  linear: (t: number) => {
     return t;
   },
-  // accelerating from zero velocity
-  easeInQuad: function(t: number) {
+  // Quad: accelerating from zero velocity
+  easeIn: (t: number) => {
     return t * t;
   },
-  // decelerating to zero velocity
-  easeOutQuad: function(t: number) {
+  // Quad: decelerating to zero velocity
+  easeOut: (t: number) => {
     return t * (2 - t);
   },
-  // acceleration until halfway, then deceleration
-  easeInOutQuad: function(t: number) {
+  // Quad: acceleration until halfway, then deceleration
+  easeInOut: (t: number) => {
     return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
   },
-  // accelerating from zero velocity
-  easeInCubic: function(t: number) {
-    return t * t * t;
-  },
-  // decelerating to zero velocity
-  easeOutCubic: function(t: number) {
-    return --t * t * t + 1;
-  },
-  // acceleration until halfway, then deceleration
-  easeInOutCubic: function(t: number) {
-    return t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
-  },
-  // accelerating from zero velocity
-  easeInQuart: function(t: number) {
-    return t * t * t * t;
-  },
-  // decelerating to zero velocity
-  easeOutQuart: function(t: number) {
-    return 1 - --t * t * t * t;
-  },
-  // acceleration until halfway, then deceleration
-  easeInOutQuart: function(t: number) {
-    return t < 0.5 ? 8 * t * t * t * t : 1 - 8 * --t * t * t * t;
-  },
-  // accelerating from zero velocity
-  easeInQuint: function(t: number) {
-    return t * t * t * t * t;
-  },
-  // decelerating to zero velocity
-  easeOutQuint: function(t: number) {
-    return 1 + --t * t * t * t * t;
-  },
-  // acceleration until halfway, then deceleration
-  easeInOutQuint: function(t: number) {
-    return t < 0.5 ? 16 * t * t * t * t * t : 1 + 16 * --t * t * t * t * t;
+  /*
+   * Additional functions
+   */
+  solid: (t: number) => {
+    return t > 0 && t < 1 ? 1 : 0;
   }
 };

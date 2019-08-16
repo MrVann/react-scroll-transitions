@@ -1,7 +1,10 @@
 import React, { Component } from "react";
+import jackDanceGif from "./assets/jack-dance.gif";
+import girlfriendGif from "./assets/girlfriend.gif";
 // import styled from "styled-components";
 
-import ParallaxScroll from "./reactComponentLib";
+import ParallaxScroll, { getScrollTransition } from "./reactComponentLib";
+import { blockStatement } from "@babel/types";
 
 // const StyledDiv = styled.div`
 //   padding: 10px;
@@ -20,13 +23,17 @@ class App extends Component {
           transitionOverlap={false}
           transitionSize={0.5}
           sections={[
-            { id: "title", height: 2, outTransition: "easeInQuad" },
+            { id: "title", height: 2, outTransition: "easeIn" },
             { id: "chapter1", height: 2 },
             {
               id: "chapter2",
               height: 2,
-              inTransition: "easeOutCubic",
-              outTransition: "easeInCubic"
+              inTransition: "easeOut",
+              outTransition: "easeIn"
+            },
+            {
+              id: "chapter3",
+              height: 2
             },
             { id: "end", height: 2 }
           ]}
@@ -34,16 +41,38 @@ class App extends Component {
             console.log(
               "render all",
               transitionData,
-              transitionData.visibility.includes("chapter1"),
-              transitionData.visibility.includes("chapter2")
+              transitionData.visibility.includes("chapter2"),
+              transitionData.visibility.includes("chapter3")
             );
             if (
-              transitionData.visibility.includes("chapter1") ||
-              transitionData.visibility.includes("chapter2")
+              transitionData.visibility.includes("chapter2") ||
+              transitionData.visibility.includes("chapter3")
             ) {
               return (
-                <div style={{ position: "fixed", left: "0px", top: "0px" }}>
-                  Staying for two
+                <div
+                  style={{
+                    position: "fixed",
+                    left: "0px",
+                    top: "0px",
+                    margin: "10px",
+                    textAlign: "center"
+                  }}
+                >
+                  <img
+                    src={girlfriendGif}
+                    style={{
+                      position: "static",
+                      // right: "0px",
+                      display: "block",
+                      objectFit: "cover",
+                      width: "200px",
+                      height: "200px",
+                      borderRadius: "100%",
+                      margin: "10px"
+                      // bottom: "20px"
+                    }}
+                  />
+                  Staying for longer than normal
                 </div>
               );
             }
@@ -106,9 +135,9 @@ class App extends Component {
                         : isEntering
                         ? enteringPercent
                         : 1,
-                      right: `${70 - percent * 60}%`,
+                      left: `50%`,
                       transform: `translate(-50%, -50%) rotate(${5 -
-                        percent * 10}deg)`,
+                        (1 - percent) * 10}deg)`,
                       fontSize: "20px"
                     }}
                   >
@@ -170,33 +199,94 @@ class App extends Component {
               }
               case "chapter2": {
                 return (
-                  <div
-                    style={{
-                      position: "absolute",
-                      left: "50%",
-                      opacity: 1,
-                      fontSize: "50px",
-                      fontWeight: 900,
-                      top: `${20 +
-                        30 *
-                          (isEntering
+                  <>
+                    <div
+                      style={{
+                        position: "absolute",
+                        left: "50%",
+                        opacity: 1,
+                        fontSize: "50px",
+                        textAlign: "center",
+                        fontWeight: 900,
+                        top: `${20 +
+                          30 *
+                            (isEntering
+                              ? enteringPercent * 1
+                              : isLeaving
+                              ? leavingPercent * 1
+                              : 1)}%`,
+                        transform: `translate(-50%, -50%) rotate(${20 -
+                          percent * 40}deg) scale(${
+                          isEntering
                             ? enteringPercent * 1
                             : isLeaving
                             ? leavingPercent * 1
-                            : 1)}%`,
-                      // top: `${100 - percent * 100}%`,
-                      transform: `translate(-50%, -50%) rotate(${20 -
-                        percent * 40}deg) scale(${
-                        isEntering
-                          ? enteringPercent * 1
-                          : isLeaving
-                          ? leavingPercent * 1
-                          : 1
-                      })`
-                    }}
-                  >
-                    Use easing transitions!
-                  </div>
+                            : 1
+                        })`
+                      }}
+                    >
+                      Use easing transitions!
+                    </div>
+                  </>
+                );
+              }
+              case "chapter3": {
+                const jackTransition1 = getScrollTransition({
+                  percent,
+                  from: 0.2,
+                  to: 0.8,
+                  transition: "easeInOut"
+                });
+                const jackTransition2 = getScrollTransition({
+                  percent,
+                  from: 0.5,
+                  to: 1,
+                  transition: "easeInOut"
+                });
+                return (
+                  <>
+                    <div
+                      style={{
+                        position: "absolute",
+                        left: "50%",
+                        opacity: transitionPercent,
+                        fontSize: "50px",
+                        fontWeight: 900,
+                        top: `50%`,
+                        transform: `translate(-50%, -50%)`
+                      }}
+                    >
+                      Split transitions!
+                    </div>
+                    {jackTransition2 ? (
+                      <img
+                        src={jackDanceGif}
+                        style={{
+                          position: "fixed",
+                          left: `${100 * jackTransition2}%`,
+                          transform: `translateX(-${100 -
+                            100 * jackTransition2}%)`,
+                          top: `${jackTransition2 * 30}%`
+                        }}
+                      />
+                    ) : (
+                      ""
+                    )}
+                    {jackTransition1 ? (
+                      <img
+                        src={jackDanceGif}
+                        style={{
+                          position: "fixed",
+                          right: `${100 * jackTransition1}%`,
+                          transform: `translateX(${100 -
+                            100 * jackTransition1}%)`,
+                          bottom: "20px"
+                        }}
+                      />
+                    ) : (
+                      ""
+                    )}
+                  </>
                 );
               }
               case "end": {
@@ -206,11 +296,11 @@ class App extends Component {
                       position: "absolute",
                       left: "50%",
                       opacity: 1,
-                      fontSize: "30px",
+                      fontSize: "50px",
                       // fontWeight: 800,
                       top: `${100 - percent * 50}%`,
                       transform: `translate(-50%, -50%) rotate(${-180 +
-                        percent * 180}deg) scale(${1 + percent * 3})`
+                        percent * 180}deg) scale(${0 + percent * 1})`
                     }}
                   >
                     <span

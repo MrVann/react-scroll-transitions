@@ -1,15 +1,17 @@
 {
   "files": {
     "main.css": "/react-scroll-transitions/static/css/main.795991f2.chunk.css",
-    "main.js": "/react-scroll-transitions/static/js/main.add89fa5.chunk.js",
-    "main.js.map": "/react-scroll-transitions/static/js/main.add89fa5.chunk.js.map",
+    "main.js": "/react-scroll-transitions/static/js/main.959fdcbc.chunk.js",
+    "main.js.map": "/react-scroll-transitions/static/js/main.959fdcbc.chunk.js.map",
     "runtime~main.js": "/react-scroll-transitions/static/js/runtime~main.7fde51c9.js",
     "runtime~main.js.map": "/react-scroll-transitions/static/js/runtime~main.7fde51c9.js.map",
-    "static/js/2.f885ce20.chunk.js": "/react-scroll-transitions/static/js/2.f885ce20.chunk.js",
-    "static/js/2.f885ce20.chunk.js.map": "/react-scroll-transitions/static/js/2.f885ce20.chunk.js.map",
+    "static/js/2.da0e3110.chunk.js": "/react-scroll-transitions/static/js/2.da0e3110.chunk.js",
+    "static/js/2.da0e3110.chunk.js.map": "/react-scroll-transitions/static/js/2.da0e3110.chunk.js.map",
     "index.html": "/react-scroll-transitions/index.html",
-    "precache-manifest.b87829a3ce2dd723bfec6b2fc45d7c24.js": "/react-scroll-transitions/precache-manifest.b87829a3ce2dd723bfec6b2fc45d7c24.js",
+    "precache-manifest.2a38e0fe163a26c91a12b317882d0408.js": "/react-scroll-transitions/precache-manifest.2a38e0fe163a26c91a12b317882d0408.js",
     "service-worker.js": "/react-scroll-transitions/service-worker.js",
-    "static/css/main.795991f2.chunk.css.map": "/react-scroll-transitions/static/css/main.795991f2.chunk.css.map"
+    "static/css/main.795991f2.chunk.css.map": "/react-scroll-transitions/static/css/main.795991f2.chunk.css.map",
+    "static/media/girlfriend.gif": "/react-scroll-transitions/static/media/girlfriend.0f9b6ba6.gif",
+    "static/media/jack-dance.gif": "/react-scroll-transitions/static/media/jack-dance.47aed53d.gif"
   }
 }
